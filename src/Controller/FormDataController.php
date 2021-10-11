@@ -2,20 +2,25 @@
 
 namespace App\Controller;
 
+use App\Form\FormDataType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\FormData;
+use Symfony\Component\HttpFoundation\Request;
 
 class FormDataController extends AbstractController
 {
     /**
-     * @Route("/form/data", name="form_data")
+     * @Route("/", name="form_data")
      */
-    public function index(): Response
+    public function new(Request $request): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/FormDataController.php',
+        $formData = new FormData();
+        $form = $this->createForm(FormDataType::class, $formData);
+
+        return $this->renderForm('formData/new.html.twig', [
+            'form' => $form,
         ]);
     }
 }
